@@ -6,6 +6,10 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>HealthKitへ書き込みます</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>HealthKitから読み込みます</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
