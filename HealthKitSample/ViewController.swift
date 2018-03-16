@@ -11,7 +11,7 @@ import HealthKit
 
 class ViewController: UIViewController {
     // 書き込みタイプ
-    let typesToWrite: Set<HKSampleType> = [HKQuantityType.quantityType(forIdentifier: .bodyMass)!]
+    let typesToWrite: Set<HKSampleType> = [HKSampleType.quantityType(forIdentifier: .stepCount)!]
     // 読み込みタイプ
     let typesToRead: Set<HKObjectType> = [HKQuantityType.quantityType(forIdentifier: .stepCount)!]
     
@@ -24,6 +24,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        requestHealthKitAuthorization {
+            print("許可: \($0)")
+        }
     }
     
     
@@ -32,41 +35,37 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
 }
 
 extension ViewController {
-    // 現在時間 - 1日
-    var startDate: Date {
-        return Date().add(day: -1)
-    }
-    // 現在時間
-    var endDate: Date {
-        return Date()
-    }
-    
-    /// HealthKitへの認証を許可
-    @IBAction func didTaped(authButton: Any) {
-        requestHealthKitAuthorization {
-            print("許可: \($0)")
-        }
-    }
-    
+
     @IBAction func didTaped(executeSampleQueryButton: Any) {
+        let now = Date()
         // すべての記録を取得する
         self.executeSampleQuery(type: HKSampleType.quantityType(forIdentifier: .stepCount)!,
                                 unit: HKUnit.count(),
-                                startDate: startDate,
-                                endDate: endDate)
+                                startDate: now.add(day: -1),
+                                endDate: now)
     }
     
     @IBAction func didTaped(collectionQueryButton: Any) {
+        let now = Date()
         // 統計データ取得する
         self.executeCollectionQuery(type: HKSampleType.quantityType(forIdentifier: .stepCount)!,
                                     unit: HKUnit.count(),
-                                    startDate: startDate,
-                                    endDate: endDate)
+                                    startDate: now.add(day: -1),
+                                    endDate: now)
     }
     
+    @IBAction func didTaped(_ SaveExerciseTimeButton: Any) {
+        let now = Date()
+        self.saveHealthKit(doubleValue: 5,
+                                 type: HKQuantityType.quantityType(forIdentifier: .stepCount)!,
+                                 unit: HKUnit.count(),
+                                 startDate: now.add(minute: -5),
+                                 endDate: now)
+    }
 }
 
 
@@ -101,7 +100,9 @@ extension ViewController {
                 if let q = result as? HKQuantitySample {
                     print("startDate: \(q.startDate)")
                     print("endDate: \(q.endDate)")
-                    print("device: \(q.device!.name!)")
+                    if let device = q.device {
+                        print("device: \(device.name!)")
+                    }
                     print("value: \(q.quantity.doubleValue(for: unit))")
                     print("---")
                 }
@@ -146,6 +147,26 @@ extension ViewController {
             }
         }
         healthStore!.execute(collectionQuerty)
+    }
+    
+    
+    /// HealthKitへ保存します
+    ///
+    /// - Parameters:
+    ///   - doubleValue: 値
+    ///   - type: タイプ
+    ///   - unit: 単位
+    ///   - startDate: 開始日
+    ///   - endDate: 終了日
+    func saveHealthKit(doubleValue: Double, type: HKQuantityType, unit: HKUnit, startDate: Date, endDate: Date) {
+        let quantity = HKQuantity(unit: unit, doubleValue: doubleValue)
+        let obj = HKQuantitySample(type: type, quantity: quantity, start: startDate, end: endDate)
+        healthStore!.save(obj, withCompletion: { success, error in
+            print("result: \(success)")
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+            }
+        })
     }
 }
 

@@ -21,15 +21,8 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="BBv-ju-7v9">
                                 <rect key="frame" x="21.5" y="313.5" width="332" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wl7-Xc-ihf">
-                                        <rect key="frame" x="124.5" y="0.0" width="83" height="30"/>
-                                        <state key="normal" title="Authrization"/>
-                                        <connections>
-                                            <action selector="didTapedWithAuthButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="d59-mt-ea8"/>
-                                        </connections>
-                                    </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Xha-0B-1ZY">
-                                        <rect key="frame" x="0.0" y="30" width="332" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="332" height="30"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TRn-14-mhk">
                                                 <rect key="frame" x="0.0" y="0.0" width="147" height="30"/>
@@ -47,6 +40,13 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WtY-YW-ILz">
+                                        <rect key="frame" x="112.5" y="30" width="107" height="30"/>
+                                        <state key="normal" title="SaveStepCount"/>
+                                        <connections>
+                                            <action selector="didTaped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TpI-4K-5jl"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -57,9 +57,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <connections>
-                        <outlet property="authButton" destination="Wl7-Xc-ihf" id="A38-xp-MhO"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
